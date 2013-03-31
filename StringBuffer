@@ -1,0 +1,31 @@
+/**
+ * @author linkwisdom liu@liandong.org
+ * @description
+ * StringBuffer is a class for browser-end to resolve some problem of asia-character like chinese
+ * 
+ * @usage:  
+ * var ch = '我是中文';  
+ * var buff = new StringBuffer( ch );
+ * var text = buff.decode( buff );
+*/
+
+function StringBuffer( str ){
+  var b = new Uint8Array(str.length*2);
+  for(var i = 0; i < b.length; i+=2){
+    var x = str.charCodeAt(i/2);
+    var a = x%256;
+    x -= a;
+    x /= 256;
+    b[i] = x;
+    b[i+1] = a;
+ }
+
+  b.decode = function(){
+    var s = "";
+  for(var i = 0; i < b.length;){
+		s += String.fromCharCode(b[i++]*256+b[i++]);
+	}
+	return s;
+  }
+  return b;
+}
